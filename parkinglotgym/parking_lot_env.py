@@ -3,6 +3,7 @@ import numpy as np
 from gymnasium import spaces
 from typing import Optional, Tuple, Dict, Any, Union
 from parkinglot.lot import Lot
+import matplotlib.pyplot as plt
 
 
 class ParkingLotEnv(gym.Env):
@@ -39,6 +40,10 @@ class ParkingLotEnv(gym.Env):
             shape=(self.height, self.width),
             dtype=np.int32
         )
+
+        # For rendering
+        self._fig = None
+        self._ax = None
 
         self.reset()
 
@@ -108,9 +113,52 @@ class ParkingLotEnv(gym.Env):
     def render(self, mode='human'):
         """Render the environment to the screen."""
         if mode == 'human':
-            str(self.lot)
-        return None
+            grid = self.lot.grid()
+            
+            if self._fig is None or self._ax is None:
+                self._fig, self._ax = plt.subplots(figsize=(6, 6))
+                plt.ion()
+                self._fig.show()
+            
+            self._ax.clear()
+            
+            # Draw grid lines
+            for i in range(self.height + 1):
+                self._ax.axhline(i, color='black', lw=2)
+            for j in range(self.width + 1):
+                self._ax.axvline(j, color='black', lw=2)
+            
+            # Fill in the cells
+            for i in range(self.height):
+                for j in range(self.width):
+                    cell = grid[i][j]
+                    if cell == '#':  # Wall
+                        self._ax.add_patch(plt.Rectangle((j, self.height - i - 1), 1, 1, 
+                                                       facecolor='gray', edgecolor='black'))
+                    elif cell != '.':  # Vehicle
+                        # Use different colors for different vehicles
+                        color = plt.cm.tab20((ord(cell) - ord('A')) % 20)
+                        self._ax.add_patch(plt.Rectangle((j, self.height - i - 1), 1, 1, 
+                                                       facecolor=color, edgecolor='black'))
+                        self._ax.text(j + 0.5, self.height - i - 0.5, cell, 
+                                    fontsize=20, ha='center', va='center')
+            
+            self._ax.set_xlim(0, self.width)
+            self._ax.set_ylim(0, self.height)
+            self._ax.set_xticks([])
+            self._ax.set_yticks([])
+            self._ax.set_title('Parking Lot Puzzle')
+            
+            self._fig.canvas.draw()
+            self._fig.canvas.flush_events()
+            
+            return None
+        else:
+            raise NotImplementedError(f"Rendering mode {mode} not implemented.")
 
     def close(self):
         """Clean up environment resources."""
-        pass
+        if self._fig is not None:
+            plt.close(self._fig)
+            self._fig = None
+            self._ax = None
