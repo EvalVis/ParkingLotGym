@@ -1,7 +1,7 @@
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Tuple, Dict, Any, Union
 from parkinglot.lot import Lot
 
 
@@ -9,12 +9,17 @@ class ParkingLotEnv(gym.Env):
     """Custom Environment that follows gym interface"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, layout_str: str):
+    def __init__(self, layout_str_or_moves: Union[str, int, None] = None):
         super(ParkingLotEnv, self).__init__()
 
         # Initialize the parking lot
-        self.lot = Lot(layout_str)
-        self.initial_layout = layout_str
+        self.lot = Lot(layout_str_or_moves)
+        
+        if isinstance(layout_str_or_moves, str):
+            self.initial_layout = layout_str_or_moves
+        else:
+            grid = self.lot.grid()
+            self.initial_layout = '\n'.join(''.join(row) for row in grid)
 
         # Define action space: (vehicle_id, move)
         # vehicle_id is an integer index into the list of vehicles
