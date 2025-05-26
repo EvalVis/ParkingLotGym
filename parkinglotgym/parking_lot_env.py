@@ -1,4 +1,4 @@
-import gymnasium as gym
+import gym
 import numpy as np
 from gymnasium import spaces
 from typing import Optional, Tuple, Dict, Any, Union
