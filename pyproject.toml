@@ -6,7 +6,17 @@ description = "Gym library for training RL agents on Rush Hour game"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "GPL-3.0-or-later"}
-dependencies = []
+dependencies = [
+    "gym>=0.17.3",
+    "numpy>=2.2.3",
+    "matplotlib>=3.10.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
 
 [project.urls]
 Repository = "https://github.com/EvalVis/ParkingLotGym"
