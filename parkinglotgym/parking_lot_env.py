@@ -47,9 +47,13 @@ class ParkingLotEnv(gym.Env):
 
         self.reset()
 
-    def _get_available_moves(self) -> Dict[str, Tuple[int, int]]:
+    def _get_available_moves(self) -> Dict[str, tuple]:
         """Get available moves for each vehicle."""
-        return self.lot.query_legal_moves()
+        legal_moves = self.lot.query_legal_moves()
+        return {
+            vehicle_id: tuple(-i for i in range(1, backward + 1)) + tuple(i for i in range(1, forward + 1))
+            for vehicle_id, (backward, forward) in legal_moves.items()
+        }
 
     def reset(self, *, seed: Optional[int] = None, options: Optional[dict] = None):
         """Reset the environment to initial state."""

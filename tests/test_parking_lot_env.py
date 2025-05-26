@@ -6,7 +6,7 @@ class TestParkingLotEnv(unittest.TestCase):
     def setUp(self):
         # Simple layout for testing with vehicles of length 2
         self.layout = (
-            "AA..B\n"
+            ".AA.B\n"
             "....B"
         )
         self.env = ParkingLotEnv(self.layout)
@@ -24,7 +24,7 @@ class TestParkingLotEnv(unittest.TestCase):
     
     def test_step_valid_move(self):
         """Test that step works with a valid move"""
-        obs, reward, done, truncated, _ = self.env.step((2, 2))
+        obs, reward, done, truncated, _ = self.env.step((2, 1))
 
         self.assertEqual(reward, -1)
         expected_obs = np.array([[0, 0, 2, 2, 3], [0, 0, 0, 0, 3]])
@@ -43,7 +43,7 @@ class TestParkingLotEnv(unittest.TestCase):
         _, info = self.env.reset()
 
         available_moves = info['available_moves']
-        self.assertEqual(available_moves, {'A': (0, 2), 'B': (0, 0)})
+        self.assertEqual({'A': (-1, 1), 'B': ()}, available_moves)
     
     def test_puzzle_solved(self):
         """Test that the environment correctly identifies when the puzzle is solved"""
