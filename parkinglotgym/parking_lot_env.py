@@ -114,7 +114,7 @@ class ParkingLotEnv(gym.Env):
 
         return obs
 
-    def render(self, mode='human'):
+    def render(self, mode='human'): # pragma: no cover
         """Render the environment to the screen."""
         if mode == 'human':
             grid = self.lot.grid()
