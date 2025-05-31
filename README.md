@@ -40,7 +40,8 @@ env_6x6_fixed = gym.make('Puzzle6x6Moves6Fixed-v0')
 from parkinglotgym import ParkingLotEnv
 
 env_random = ParkingLotEnv(15)
-env_fixed = ParkingLotEnv("""
+env_fixed = ParkingLotEnv
+("""
     ....O
     FF..O
     .AA..
