@@ -47,14 +47,6 @@ class ParkingLotEnv(gym.Env):
 
         self.reset()
 
-    def _get_available_moves(self) -> Dict[str, tuple]:
-        """Get available moves for each vehicle."""
-        legal_moves = self.lot.query_legal_moves()
-        return {
-            vehicle_id: tuple(-i for i in range(1, backward + 1)) + tuple(i for i in range(1, forward + 1))
-            for vehicle_id, (backward, forward) in legal_moves.items()
-        }
-
     def reset(self, *, seed: Optional[int] = None, options: Optional[dict] = None):
         """Reset the environment to initial state."""
         super().reset(seed=seed)
@@ -95,6 +87,14 @@ class ParkingLotEnv(gym.Env):
         }
 
         return observation, reward, done, False, info
+
+    def _get_available_moves(self) -> Dict[int, tuple]:
+        """Get available moves for each vehicle."""
+        legal_moves = self.lot.query_legal_moves()
+        return {
+            self.vehicle_ids.index(vehicle_id) + 2: tuple(-i for i in range(1, backward + 1)) + tuple(i for i in range(1, forward + 1))
+            for vehicle_id, (backward, forward) in legal_moves.items()
+        }
 
     def _get_observation(self) -> np.ndarray:
         """Convert the current grid state to a numpy array."""
