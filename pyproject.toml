@@ -1,6 +1,6 @@
 [project]
 name = "parkinglotgym"
-version = "1.1.1"
+version = "1.1.2"
 authors = [{name = "Evaldas Visockas", email = "developersediary@gmail.com"}]
 description = "Gym library for training RL agents on Rush Hour game"
 readme = "README.md"
