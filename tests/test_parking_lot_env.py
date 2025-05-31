@@ -43,7 +43,7 @@ class TestParkingLotEnv(unittest.TestCase):
         _, info = self.env.reset()
 
         available_moves = info['available_moves']
-        self.assertEqual({'A': (-1, 1), 'B': ()}, available_moves)
+        self.assertEqual({2: (-1, 1), 3: ()}, available_moves)
     
     def test_puzzle_solved(self):
         """Test that the environment correctly identifies when the puzzle is solved"""
