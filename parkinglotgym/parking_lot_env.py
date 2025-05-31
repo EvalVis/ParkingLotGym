@@ -141,7 +141,7 @@ class ParkingLotEnv(gym.Env):
                                                        facecolor='gray', edgecolor='black'))
                     elif cell != '.':  # Vehicle
                         # Use different colors for different vehicles
-                        color = plt.cm.tab20((ord(cell) - ord('A')) % 20)
+                        color = plt.cm.tab20((ord(cell) - ord('A') + 6) % 20)
                         self._ax.add_patch(plt.Rectangle((j, self.height - i - 1), 1, 1, 
                                                        facecolor=color, edgecolor='black'))
                         self._ax.text(j + 0.5, self.height - i - 0.5, cell, 
