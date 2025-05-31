@@ -26,11 +26,12 @@ class ParkingLotEnv(gym.Env):
         # vehicle_id is an integer index into the list of vehicles
         self.vehicle_ids = list(self.lot.query_vehicles().keys())
 
-        # Action space: (vehicle_index, move)
-        # vehicle_index: which vehicle to move (discrete)
-        # move: how many steps to move (discrete)
         self.width, self.height = self.lot.dimensions()
-        self.action_space = spaces.MultiDiscrete([len(self.vehicle_ids), max(self.width, self.height)])
+        max_moves = max(self.width, self.height) - 1
+        self.action_space = spaces.MultiDiscrete([
+            len(self.vehicle_ids),
+            max_moves * 2
+        ], start=[2, -max_moves])
 
         # Observation space: grid state
         # Each cell can be: empty (0), wall (1), or vehicle (2+)
