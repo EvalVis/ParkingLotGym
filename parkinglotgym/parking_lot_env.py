@@ -90,11 +90,12 @@ class ParkingLotEnv(gym.Env):
         return observation, reward, done, False, info
 
     def _get_available_moves(self) -> Dict[int, tuple]:
-        """Get available moves for each vehicle."""
+        """Get available moves for movable vehicles."""
         legal_moves = self.lot.query_legal_moves()
         return {
             self.vehicle_ids.index(vehicle_id) + 2: tuple(-i for i in range(1, backward + 1)) + tuple(i for i in range(1, forward + 1))
             for vehicle_id, (backward, forward) in legal_moves.items()
+            if backward > 0 or forward > 0
         }
 
     def _get_observation(self) -> np.ndarray:
