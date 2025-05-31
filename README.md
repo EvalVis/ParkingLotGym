@@ -19,3 +19,11 @@ Random moves are used for this demo. Click on .gif if still.
 Random moves are used for this demo. Click if .gif if still.
 
 ![ParkingLot5](images/parking_lot_5.gif)
+
+## Environment Details
+
+- **Action Space**: MultiDiscrete([num_vehicles, max_moves*2], start=[2, -max_moves]) - First value selects vehicle ID (starting at 2), second value indicates steps to move (negative for backward, positive for forward). Moving 0 steps is not allowed.
+- **Observation Space**: `Box(0, num_vehicles+1, (height, width), int32)`.
+Contains values: `0` for empty cells, `1` for walls, `2` and up for vehicles. '2` represents the main vehicle.
+- **Reward**: `0` if the puzzle is solved, `-1` if not solved yet, `-2` if invalid move.
+- **Done**: `True` if the puzzle is solved, `False` otherwise.
