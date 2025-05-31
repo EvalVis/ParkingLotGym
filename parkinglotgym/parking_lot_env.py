@@ -1,6 +1,6 @@
-import gym
+import gymnasium as gym
 import numpy as np
-from gym import spaces
+from gymnasium import spaces
 from typing import Optional, Tuple, Dict, Any, Union
 from parkinglotpuzzle.lot import Lot
 import matplotlib.pyplot as plt
